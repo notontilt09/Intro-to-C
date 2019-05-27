@@ -10,20 +10,17 @@
 */
 int fizzbuzz(int n)
 {
-    char fizzbuzz[10] = "Fizzbuzz";
-    char fizz[5] = "Fizz";
-    char buzz[5] = "Buzz";
     int counter = 0;
 
     for (int i = 1; i <= n; i++) {
         if (i % 5 == 0 && i % 3 == 0) {
-            printf("%s\n", fizzbuzz);
+            printf("Fizzbuzz\n");
         }
         else if (i % 5 == 0) {
-            printf("%s\n", buzz);
+            printf("Buzz\n");
         }
         else if (i % 3 == 0) {
-            printf("%s\n", fizz);
+            printf("Fizz\n");
         } 
         else {
             counter++;
