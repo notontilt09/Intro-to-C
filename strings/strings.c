@@ -26,9 +26,15 @@ char *reverse_string(char *rv, char *s)
 {
     int len_s = string_length(s);
     
-    for (int i = 0; i < len_s; i++) {
-        rv[i] = s[len_s - (i+1)];
+    for (int i = 0; i <= len_s; i++) {
+        if (i < len_s) {
+            rv[i] = s[len_s - (i+1)];
+        }
+        else {
+            rv[i] = s[len_s];
+        }
     }
+
 
     return rv;
 
