@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 
 /*
     Given a character pointer x (that points to an array of chars), and a
