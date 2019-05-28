@@ -12,7 +12,18 @@
 */
 char *string_dup(char *src)
 {
+    int length = string_length(src);
+    char *copy = malloc(length + 1);
+    // we'll return this pointer as we're going to iterate through src and copy while copying
+    char *begin = copy;
 
+    while (*src) {
+        *copy = *src;
+        copy++;
+        src++;
+    }
+
+    return begin;
 }
 
 /*
@@ -24,7 +35,17 @@ char *string_dup(char *src)
 */
 void mem_copy(void *dest, const void *src, int n)
 {
+    char *cast_src = (char *) src;
+    char *cast_dest = (char *) dest;
 
+    int i = 0;
+
+    while (i < n) {
+        *cast_dest = *cast_src;
+        cast_src++;
+        cast_dest++;
+        i++;
+    }
 }
 
 /*
@@ -40,7 +61,24 @@ void mem_copy(void *dest, const void *src, int n)
 */
 void *resize_memory(void *ptr, int old_size, int new_size)
 {
-
+    char *cast_ptr = (char *) ptr;
+    char *new_ptr = malloc(new_size);
+    char *begin = new_ptr;
+    if (new_size > old_size) {
+        while(*cast_ptr != '\0') {
+            *new_ptr = *cast_ptr;
+            new_ptr++;
+            cast_ptr++;
+        }
+        return begin;
+    } else {
+        while(string_length(new_ptr) <= new_size) {
+            *new_ptr = *cast_ptr;
+            new_ptr++;
+            cast_ptr++;
+        }
+        return begin;
+    }
 }
 
 #ifndef TESTING
