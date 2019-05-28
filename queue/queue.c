@@ -18,7 +18,7 @@ Queue *createQueue(unsigned capacity)
     Queue *q = malloc(sizeof(Queue));
     q->length = 0;
     q->capacity = capacity;
-    q->storage = (int *) malloc(q->capacity * sizeof(int));
+    q->storage = malloc(q->capacity * sizeof(int));
 
     return q;
 }
@@ -30,18 +30,17 @@ Queue *createQueue(unsigned capacity)
 */
 void enqueue(Queue *q, int item)
 {
-    // if there's still room at the end
-    if (q->capacity > q->length) {
-        // add item to end of storage
-        q->storage[q->length] = item;
-        // increase length of queue by 1
-        q->length++;
-    } else {
+    // if there's no room at the end
+    if (q->capacity <= q->length) {
+        // increase capacity
+        q->capacity++;
         // reallocate memory to hold new item
-        resize_memory(q, q->capacity + sizeof(int));
-        q->storage[q->length] = item;
-        q->length++;
-    }
+        q->storage = resize_memory(q->storage, q->capacity * sizeof(int));
+    } 
+    // add item to end of storage array
+    q->storage[q->length] = item;
+    // increase length of storage array
+    q->length++;
 }
 
 /*
@@ -54,16 +53,15 @@ int dequeue(Queue *q)
     if (q->length == 0) {
         return -1;
     }
-    else {
-        // store the first value in storage
-        int pop = q->storage[0];
-        // decrement the length of the queue
-        q->length--;
-        // move the pointer to the next item in storage
-        q->storage++;
-        // return the old first value
-        return pop;
-    }
+    
+    // return value
+    int pop = q->storage[0];
+    // decrement the length of the queue
+    q->length--;
+    // move the pointer to the next item in storage
+    q->storage++;
+    // return the old first value
+    return pop;
 }
 
 /*
@@ -72,15 +70,11 @@ int dequeue(Queue *q)
 */
 void destroyQueue(Queue *q)
 {
-    // move pointer to beginning of queue
-    q->storage = &q->storage[0];
-    // free storage at each index of queue
-    while(*q->storage) {
+    if (q->length > 0) {
         if (q->storage != NULL) {
             free(q->storage);
         }
-        q->storage++;
-    }
+    } 
     if (q != NULL) {
         free(q);
     }
@@ -107,6 +101,31 @@ int main(void)
     printf("%d\n", dequeue(q));
 
     destroyQueue(q);
+
+    // unsigned int capacity = (rand() % 30) + 1;
+    // unsigned int increased_cap = capacity + 5;
+
+    // Queue *q = createQueue(capacity);
+    // int *rand_values = malloc(sizeof(int) * increased_cap);
+
+    // unsigned int i;
+
+    // for (i = 0; i < increased_cap; i++) {
+    //     rand_values[i] = (rand() % 100) + 1;
+    //     printf("%d\n", rand_values[i]);
+    // }
+
+    // printf("-----\n");
+
+    // for (i = 0; i < increased_cap; i++) {
+    //     enqueue(q, rand_values[i]);
+    // }
+
+    // for (i = 0; i < increased_cap; i++) {
+    //     printf("%d\n", dequeue(q));
+    // }
+
+    // destroyQueue(q);
 
     return 0;
 }
