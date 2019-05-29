@@ -60,15 +60,25 @@ char *test_queue_expansion()
 
     unsigned int i;
 
+    printf("rand_values\n");
+
     for (i = 0; i < increased_cap; i++) {
         rand_values[i] = (rand() % 100) + 1;
+        printf("%d\n", rand_values[i]);
     }
+
+    printf("-----\nEnqueues\n");
 
     for (i = 0; i < increased_cap; i++) {
         enqueue(q, rand_values[i]);
+        printf("%d\n", rand_values[i]);
     }
 
+    printf("Dequeues\n");
+
+
     for (i = 0; i < increased_cap; i++) {
+        printf("%d Should Equal %d\n" , q->storage[0], rand_values[i]);
         mu_assert(dequeue(q) == rand_values[i], "Your queue did not return an expected value.");
     }
 

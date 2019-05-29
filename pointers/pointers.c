@@ -15,7 +15,11 @@
 */
 void string_copy(char *x, char *y)
 {
-
+    while (*y) {
+        *x = *y;
+        x++;
+        y++;
+    }
 }
 
 /*
@@ -28,7 +32,15 @@ void string_copy(char *x, char *y)
 */
 char *find_char(char *str, int c)
 {
-
+    while (*str) {
+        if (*str == c) {
+            return str;
+        }
+        else {
+            str++;
+        }
+    }
+    return NULL;
 }
 
 /*
@@ -41,7 +53,28 @@ char *find_char(char *str, int c)
 */
 char *find_string(char *haystack, char *needle)
 {
+    while(*haystack) {
+        // pointer to the start of our main string
+        char *start = haystack;
+        // pointer to the start of our substring
+        char *sub = needle;
 
+        // keep incrementing sub and haystack and check if the dereferenced values match
+        while (*haystack && *sub && *haystack == *sub) {
+            haystack++;
+            sub++;
+        }
+
+        // if we've matched all values in main string with those in substring, dereferenced pointer of substring will be NULL
+        if (!*sub) {
+            // return the starting address of the substring
+            return start;
+        }
+
+        // increment the main string's pointer to the next address
+        haystack = start + 1;
+    }
+    return NULL;
 }
 
 #ifndef TESTING
