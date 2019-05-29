@@ -22,6 +22,7 @@ char *string_dup(char *src)
         copy++;
         src++;
     }
+    *copy = '\0';
 
     return begin;
 }
@@ -72,11 +73,7 @@ void *resize_memory(void *ptr, int old_size, int new_size)
         }
         return begin;
     } else {
-        while(string_length(new_ptr) <= new_size) {
-            *new_ptr = *cast_ptr;
-            new_ptr++;
-            cast_ptr++;
-        }
+        mem_copy(new_ptr, ptr, new_size);
         return begin;
     }
 }
@@ -108,7 +105,7 @@ int main(void)
     int url_length = string_length(url);
     int path_length = string_length(path);
     
-    int new_length = url_length - 1 + path_length;
+    int new_length = url_length + 1 + path_length;
     char *new_url = resize_memory(url, url_length, new_length);
     char *p = new_url + url_length;
 
@@ -118,7 +115,11 @@ int main(void)
         path++;
     }
 
+    char *new_new_url = resize_memory(new_url, new_length, 8);
+
     printf("Full path string: %s\n", new_url);
+
+    printf("Truncated path string: %s\n", new_new_url);
 
     return 0;
 }
